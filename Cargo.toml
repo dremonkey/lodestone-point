@@ -1,0 +1,9 @@
+[package]
+name = "lodestone-point"
+version = "0.1.0"
+authors = ["dremonkey <a.deutmeyer@gmail.com>"]
+keywords = ["geo", "geojson", "point", "lodestone"]
+
+[dependencies]
+geojson = "0.1.0"
+rustc-serialize = "0.3.0"
