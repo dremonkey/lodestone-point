@@ -2,7 +2,7 @@
 name = "lodestone-point"
 version = "0.1.0"
 authors = ["dremonkey <a.deutmeyer@gmail.com>"]
-keywords = ["geo", "geojson", "point", "lodestone"]
+keywords = ["geo", "geojson", "point", "lodestone", "turf", "turfjs"]
 
 [dependencies]
 geojson = "0.1.0"
