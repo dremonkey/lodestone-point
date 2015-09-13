@@ -2,8 +2,8 @@
 ///
 /// ## Overview
 /// 
-/// Takes coordinates and properties (optional) and returns a new Point GeoJson feature.
-/// Inspired by [turf-point](https://github.com/Turfjs/turf-point/blob/master/index.js).
+/// Takes coordinates and returns a new Point GeoJson feature.
+/// Inspired by [turf-point](https://github.com/Turfjs/turf-point).
 
 // Third party packages
 extern crate geojson;
@@ -32,7 +32,7 @@ pub extern fn point(
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
   use rustc_serialize::json::{self, ToJson};
   use super::point;
 
