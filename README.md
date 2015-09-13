@@ -1,7 +1,5 @@
 # lodestone-point
 
-lodestone point module
-
 ### Parameters
 
 | parameter     | type              | description                                                    |
