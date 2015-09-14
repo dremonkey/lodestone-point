@@ -35,7 +35,16 @@ impl FeaturePoint {
         properties: Some(properties),
       }
     }
-  } 
+  }
+  
+  pub fn coordinates(&self) -> &Vec<f64> {
+    type Err = Error;
+    
+    match self.feature.geometry.value {
+      Value::Point(ref coords) => coords,
+      _ => unreachable!("Type other than Value::Point should not be possible"),
+    }
+  }
 }
 
 impl FromStr for FeaturePoint {
@@ -52,7 +61,7 @@ impl FromStr for FeaturePoint {
       _ => return Err(Error::new("Attempted to create GeoJSON from JSON that is not an object")),
     };
 
-    FeaturePoint::from_object(&object)
+    Self::from_object(&object)
   }
 }
 
@@ -92,6 +101,15 @@ mod tests {
     let point_str = json::encode(&point.to_json()).unwrap();
 
     assert_eq!(point_str, expected_json);
+  }
+
+  #[test]
+  fn test_coordinates() {
+    let expected = vec![-122.4167, 37.7833];
+    let coords = vec![-122.4167, 37.7833];
+    let point = FeaturePoint::new(coords);
+
+    assert_eq!(&expected, point.coordinates());
   }
 
   #[test]
