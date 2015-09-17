@@ -86,6 +86,12 @@ impl ToString for FeaturePoint {
   }
 }
 
+impl PartialEq for FeaturePoint {
+  fn eq(&self, other: &Self) -> bool {
+    self.coordinates() == other.coordinates()
+  }
+}
+
 #[cfg(test)]
 mod tests {
   use rustc_serialize::json::{self, ToJson};
@@ -117,5 +123,13 @@ mod tests {
   fn test_invalid_coordinates() {
     let coords = vec![1.0];
     FeaturePoint::new(coords);
+  }
+
+  #[test]
+  fn test_eq() {
+    let point1 = FeaturePoint::new(vec![1.0, 1.0]);
+    let point2 = FeaturePoint::new(vec![1.0, 1.0]);
+
+    assert_eq!(point1 == point2, true);
   }
 }
