@@ -11,10 +11,13 @@ use std::str::FromStr;
 // Third party packages
 extern crate geojson;
 extern crate rustc_serialize;
+// extern crate lodestone_core;
 
 use rustc_serialize::json::{self, ToJson};
 use geojson::{Error, Feature, Geometry, Position, Value, FromObject};
+// use lodestone_core::utils::{ToPrecision};
 
+#[derive(Debug, Clone)]
 pub struct FeaturePoint {
   feature: Feature
 }
@@ -37,11 +40,11 @@ impl FeaturePoint {
     }
   }
   
-  pub fn coordinates(&self) -> &Vec<f64> {
+  pub fn coordinates(&self) -> Position {
     type Err = Error;
     
     match self.feature.geometry.value {
-      Value::Point(ref coords) => coords,
+      Value::Point(ref coords) => coords.clone(),
       _ => unreachable!("Type other than Value::Point should not be possible"),
     }
   }
@@ -88,7 +91,15 @@ impl ToString for FeaturePoint {
 
 impl PartialEq for FeaturePoint {
   fn eq(&self, other: &Self) -> bool {
-    self.coordinates() == other.coordinates()
+    let coord1 = self.coordinates();
+    let coord2 = other.coordinates();
+    
+    // 8 decimal points is ~1.1mm precision
+    // http://gis.stackexchange.com/questions/8650/how-to-measure-the-accuracy-of-latitude-and-longitude
+    // coord1[0].to_precision(8) == coord2[0].to_precision(8) &&
+    // coord1[1].to_precision(8) == coord2[1].to_precision(8)
+    (coord1[0] - coord2[0]).abs() < 1.0e-8 &&
+    (coord1[1] - coord2[1]).abs() < 1.0e-8
   }
 }
 
@@ -115,7 +126,7 @@ mod tests {
     let coords = vec![-122.4167, 37.7833];
     let point = FeaturePoint::new(coords);
 
-    assert_eq!(&expected, point.coordinates());
+    assert_eq!(expected, point.coordinates());
   }
 
   #[test]
@@ -130,6 +141,6 @@ mod tests {
     let point1 = FeaturePoint::new(vec![1.0, 1.0]);
     let point2 = FeaturePoint::new(vec![1.0, 1.0]);
 
-    assert_eq!(point1 == point2, true);
+    assert_eq!(point1, point2);
   }
 }

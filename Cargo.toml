@@ -7,3 +7,6 @@ keywords = ["geo", "geojson", "point", "lodestone", "turf", "turfjs"]
 [dependencies]
 geojson = "0.1.0"
 rustc-serialize = "0.3.0"
+
+[dependencies.lodestone-core]
+path = "../lodestone-core"
